@@ -1,8 +1,13 @@
 package de.leuphana.swa.pricingsystem.behaviour;
 
+import org.osgi.service.component.annotations.Component;
 import de.leuphana.swa.pricingsystem.service.PricingService;
 import de.leuphana.swa.pricingsystem.behaviour.PriceCalculator.Tariff;
 
+@Component(
+    service = PricingService.class,
+    immediate = true
+)
 public class PricingServiceImpl implements PricingService {
 
     @Override

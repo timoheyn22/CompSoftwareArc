@@ -72,4 +72,5 @@
             </plugin>
         </plugins>
     </build>
+      <!-- Maven Bundle Plugin für OSGi Bundle-Erzeugung -->
 </project>
