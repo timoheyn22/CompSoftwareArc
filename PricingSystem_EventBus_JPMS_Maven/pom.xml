@@ -73,4 +73,33 @@
         </plugins>
     </build>
       <!-- Maven Bundle Plugin für OSGi Bundle-Erzeugung -->
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>5.1.6</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <!-- Verwende dein ArtifactId als SymbolicName -->
+            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <Bundle-Version>${project.version}</Bundle-Version>
+            <!-- Exportiere die Pakete, die von anderen Bundles benötigt werden -->
+            <Export-Package>de.leuphana.swa.pricingsystem.service, de.leuphana.swa.pricingsystem.behaviour</Export-Package>
+            <!-- Importiere alle benötigten Pakete -->
+            <Import-Package>*</Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+
+      <!-- Surefire Plugin für Tests, um JPMS-bezogene Probleme zu vermeiden -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M9</version>
+        <configuration>
+          <argLine>--add-opens=org.junit.platform.commons/org.junit.platform.commons.util=ALL-UNNAMED</argLine>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
