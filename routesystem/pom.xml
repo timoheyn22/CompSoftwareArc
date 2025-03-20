@@ -1,0 +1,88 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>de.leuphana.swa</groupId>
+  <artifactId>routesystem</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>RouteSystem</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <!-- OSGi DS-Annotationen -->
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.component.annotations</artifactId>
+      <version>1.4.0</version>
+    </dependency>
+    <!-- OSGi EventAdmin -->
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.event</artifactId>
+      <version>1.4.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- OSGi Core -->
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>6.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- JUnit für Tests -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Maven Compiler -->
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <release>17</release>
+        </configuration>
+      </plugin>
+
+      <!-- bnd-Maven-Plugin, das OSGi-Manifest und DS-Metadaten erzeugt -->
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-maven-plugin</artifactId>
+        <version>6.4.0</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <bnd><![CDATA[
+-dsannotations: *
+Bundle-SymbolicName: ${project.groupId}.${project.artifactId}
+Bundle-Version: ${project.version}
+Bundle-Activator: de.leuphana.swa.routesystem.osgi.RouteSystemActivator
+Export-Package: de.leuphana.swa.routesystem.service,\
+ de.leuphana.swa.routesystem.behaviour
+Import-Package: *
+          ]]></bnd>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

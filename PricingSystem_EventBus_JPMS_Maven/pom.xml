@@ -1,103 +1,144 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.leuphana.cosa</groupId>
-    <artifactId>pricingsystem</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+  <groupId>de.leuphana.cosa</groupId>
+  <artifactId>pricingsystem</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>13</maven.compiler.source>
-        <maven.compiler.target>13</maven.compiler.target>
-    </properties>
+  <name>PricingSystem</name>
 
-    <dependencies>
-        <!-- JUnit 5 (Jupiter) -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.6.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.6.0</version>
-            <scope>test</scope>
-        </dependency>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>13</maven.compiler.source>
+    <maven.compiler.target>13</maven.compiler.target>
+  </properties>
 
-        <!-- Log4j -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.13.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.13.3</version>
-        </dependency>
+  <dependencies>
+    <!-- JUnit 5 für Tests -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.6.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>5.6.0</version>
+      <scope>test</scope>
+    </dependency>
 
-        <!-- Interne Komponenten (falls benötigt, je nach Aufgabenstellung) -->
-        <dependency>
-            <groupId>de.leuphana.cosa</groupId>
-            <artifactId>component</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
+    <!-- Log4j für Logging -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.13.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.13.3</version>
+    </dependency>
 
-    <build>
-        <plugins>
-            <!-- Compiler Plugin für Java 13 -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <release>13</release>
-                </configuration>
-            </plugin>
+    <!-- OSGi Declarative Services Annotationen -->
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.component.annotations</artifactId>
+      <version>1.4.0</version>
+      <scope>provided</scope>
+    </dependency>
 
-            <!-- Surefire Plugin für Tests mit "add-opens", um JUnit Fehler zu vermeiden -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M9</version> <!-- Neuere Version für besseren JPMS Support -->
-                <configuration>
-                    <argLine>--add-opens=org.junit.platform.commons/org.junit.platform.commons.util=ALL-UNNAMED</argLine>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-      <!-- Maven Bundle Plugin für OSGi Bundle-Erzeugung -->
+    <!-- OSGi Core API -->
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>osgi.core</artifactId>
+      <version>6.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- OSGi Component API -->
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.component</artifactId>
+      <version>1.4.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- OSGi Event Service -->
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.event</artifactId>
+      <version>1.4.0</version>
+    </dependency>
+
+    <!-- OSGi Framework API -->
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.framework</artifactId>
+      <version>1.9.0</version>
+    </dependency>
+
+    <!-- Gemeinsame Komponente (falls benötigt) -->
+    <dependency>
+      <groupId>de.leuphana.cosa</groupId>
+      <artifactId>component</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <!-- Standard-Maven-Struktur: src/main/java -->
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <plugins>
+      <!-- Maven Compiler Plugin -->
       <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>5.1.6</version>
-        <extensions>true</extensions>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
         <configuration>
-          <instructions>
-            <!-- Verwende dein ArtifactId als SymbolicName -->
-            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Bundle-Version>${project.version}</Bundle-Version>
-            <!-- Exportiere die Pakete, die von anderen Bundles benötigt werden -->
-            <Export-Package>de.leuphana.swa.pricingsystem.service, de.leuphana.swa.pricingsystem.behaviour</Export-Package>
-            <!-- Importiere alle benötigten Pakete -->
-            <Import-Package>*</Import-Package>
-          </instructions>
+          <release>13</release>
+          <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
-
-      <!-- Surefire Plugin für Tests, um JPMS-bezogene Probleme zu vermeiden -->
+      
+      <!-- bnd-maven-plugin zur Erzeugung des OSGi-Bundles inkl. DS-Metadaten -->
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-maven-plugin</artifactId>
+        <version>6.4.0</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <bnd><![CDATA[
+-dsannotations: *
+Bundle-SymbolicName: ${project.artifactId}
+Bundle-Version: ${project.version}
+Bundle-Activator: de.leuphana.swa.pricingsystem.osgi.PricingActivator
+Export-Package: de.leuphana.swa.pricingsystem.behaviour, de.leuphana.swa.pricingsystem.service
+Import-Package: org.osgi.service.component.annotations;resolution:=optional;version="[1.4,2)", org.osgi.framework, org.osgi.service.component, org.osgi.service.event;version="[1.4,2)", *
+_dsannotations: *
+          ]]></bnd>
+        </configuration>
+      </plugin>
+      
+      <!-- Maven Surefire Plugin für Tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M9</version>
         <configuration>
-          <argLine>--add-opens=org.junit.platform.commons/org.junit.platform.commons.util=ALL-UNNAMED</argLine>
+          <argLine>
+            --add-opens org.junit.platform.commons/org.junit.platform.commons.util=ALL-UNNAMED 
+            --add-opens org.junit.platform.commons/org.junit.platform.commons.logging=ALL-UNNAMED
+          </argLine>
         </configuration>
       </plugin>
     </plugins>
